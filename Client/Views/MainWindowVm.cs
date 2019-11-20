@@ -1,4 +1,5 @@
 ﻿using Chat.Utilities;
+using ChatLib;
 using Microsoft.AspNet.SignalR.Client;
 using System;
 using System.Collections.ObjectModel;
@@ -36,7 +37,7 @@ namespace Chat.Views
             {
                 return;
             }
-            _proxy.Invoke("Send", ClientName, Message);
+            _proxy.Invoke("Send", new MessageObject() { Username = ClientName, Message = Message });
             Message = string.Empty;
         }
 
@@ -57,7 +58,7 @@ namespace Chat.Views
                 _connection = new HubConnection(ServerUri);
 
                 _proxy = _connection.CreateHubProxy("ChatHub");
-                _proxy.On<string, string>("AddNewMessage", AddNewMessage);
+                _proxy.On<MessageObject>("AddNewMessage", AddNewMessage);
 
                 Task.Run(() => _connection.Start());
 
@@ -71,11 +72,11 @@ namespace Chat.Views
             }
         }
 
-        private void AddNewMessage(string name, string message)
+        private void AddNewMessage(MessageObject message)
         {
             Application.Current.Dispatcher.Invoke(() =>
             {
-                Messages.Add($"From {name}: {message}");
+                Messages.Add($"{message.Timestamp} - {message.Username}: {message.Message}");
                 OnMessagesChanged.Invoke(this, new EventArgs());
             });
         }
