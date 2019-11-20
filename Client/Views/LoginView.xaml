@@ -29,7 +29,7 @@
     <Grid>
         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Width="300">
 
-            <TextBlock Style="{StaticResource Title}" Text="The Greate Chat"/>
+            <TextBlock Style="{StaticResource Title}" Text="The Greatest Chat"/>
             <TextBlock Text="Connect to the amazing Chat"/>
             <TextBlock></TextBlock>
             <TextBlock Text="Username"/>

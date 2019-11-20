@@ -4,6 +4,8 @@ using System.Windows.Input;
 
 namespace Chat.Utilities
 {
+    // RelayCommand from https://rachel53461.wordpress.com/2011/05/08/simplemvvmexample/
+
     /// <summary>
     /// A command whose sole purpose is to relay its functionality to other
     /// objects by invoking delegates. The default return value for the

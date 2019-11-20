@@ -28,8 +28,14 @@ namespace Chat.Views
             SendCommand = new RelayCommand(Send, (o) => IsConnected);
         }
 
+        public event EventHandler OnMessagesChanged = delegate { };
+
         private void Send(object obj)
         {
+            if (string.IsNullOrEmpty(Message))
+            {
+                return;
+            }
             _proxy.Invoke("Send", ClientName, Message);
             Message = string.Empty;
         }
@@ -55,7 +61,7 @@ namespace Chat.Views
 
                 Task.Run(() => _connection.Start());
 
-                CurrentView = new Chat();
+                CurrentView = new ChatView();
                 IsConnected = true;
             }
             catch (Exception)
@@ -70,9 +76,10 @@ namespace Chat.Views
             Application.Current.Dispatcher.Invoke(() =>
             {
                 Messages.Add($"From {name}: {message}");
+                OnMessagesChanged.Invoke(this, new EventArgs());
             });
         }
-        
+
         public UserControl CurrentView
         {
             get => _currentView; set
