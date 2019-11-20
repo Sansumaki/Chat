@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Chat.Views;
+using System;
 using System.Windows;
 
 namespace Chat

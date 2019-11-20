@@ -4,9 +4,10 @@ using System;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 
-namespace Chat
+namespace Chat.Views
 {
     public class MainWindowVm : ObservableObject
     {
@@ -18,6 +19,7 @@ namespace Chat
 
         private HubConnection _connection;
         private IHubProxy _proxy;
+        private UserControl _currentView = new LoginView();
 
         public MainWindowVm()
         {
@@ -37,6 +39,7 @@ namespace Chat
             _connection.Stop();
             IsConnected = false;
             CanConnect = true;
+            CurrentView = new LoginView();
         }
 
         private void Connect(object obj)
@@ -52,6 +55,7 @@ namespace Chat
 
                 Task.Run(() => _connection.Start());
 
+                CurrentView = new Chat();
                 IsConnected = true;
             }
             catch (Exception)
@@ -68,7 +72,15 @@ namespace Chat
                 Messages.Add($"From {name}: {message}");
             });
         }
-
+        
+        public UserControl CurrentView
+        {
+            get => _currentView; set
+            {
+                _currentView = value;
+                OnPropertyChanged(nameof(CurrentView));
+            }
+        }
         public string ServerUri
         {
             get => _serverUri; set

@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace Chat
+namespace Chat.Views
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
