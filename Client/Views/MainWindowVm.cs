@@ -76,7 +76,7 @@ namespace Chat.Views
         {
             Application.Current.Dispatcher.Invoke(() =>
             {
-                Messages.Add($"{message.Timestamp} - {message.Username}: {message.Message}");
+                Messages.Add(message);
                 OnMessagesChanged.Invoke(this, new EventArgs());
             });
         }
@@ -130,7 +130,7 @@ namespace Chat.Views
             }
         }
 
-        public ObservableCollection<string> Messages { get; } = new ObservableCollection<string>();
+        public ObservableCollection<MessageObject> Messages { get; } = new ObservableCollection<MessageObject>();
 
         public ICommand ConnectCommand { get; }
         public ICommand DisconnectCommand { get; }
