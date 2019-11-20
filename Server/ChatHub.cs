@@ -10,7 +10,7 @@ namespace Servr
     {
         public void Send(string name, string message)
         {
-            Clients.Others.AddNewMessage(name, message);
+            Clients.All.AddNewMessage(name, message);
         }
     }
 }

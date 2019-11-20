@@ -5,8 +5,37 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Chat"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="Chat Client" Height="450" Width="800">
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="6*"/>
+            <RowDefinition Height="92*"/>
+            <RowDefinition Height="7*"/>
+        </Grid.RowDefinitions>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="4*"/>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <TextBox Text="{Binding ClientName}" IsEnabled="{Binding CanConnect}"></TextBox>
+            <TextBox Grid.Column="1" IsEnabled="{Binding CanConnect}" Text="{Binding ServerUri}"></TextBox>
+            <Button Grid.Column="2" Command="{Binding ConnectCommand}">Connect</Button>
+            <Button Grid.Column="3" Command="{Binding DisconnectCommand}">Disconnect</Button>
+        </Grid>
+
+        <ListView Grid.Row="1" ItemsSource="{Binding Messages}"></ListView>
+
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="6*"/>
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            
+            <TextBox Grid.Column="0" Text="{Binding Message}"></TextBox>
+            <Button Grid.Column="1" Command="{Binding SendCommand}">Send</Button>
+        </Grid>
     </Grid>
 </Window>
