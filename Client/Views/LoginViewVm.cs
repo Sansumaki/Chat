@@ -4,7 +4,7 @@ using Chat.Utilities;
 
 namespace Chat.Views
 {
-    public class LoginViewVm : ObservableObject
+    public class LoginViewVm : ObservableObject, IActivatableView
     {
         private readonly ChatService _chatService;
         private string _clientName = "Test";
@@ -43,5 +43,11 @@ namespace Chat.Views
         {
             Task.Run(() => _chatService.Connect(ServerUri, ClientName));
         }
+
+        public void Activate()
+        { }
+
+        public void Deactivate()
+        { }
     }
 }

@@ -5,17 +5,23 @@ namespace Chat.Views
     public class MainWindowVm : ObservableObject
     {
         private readonly ChatService _chatService;
-        private ObservableObject _currentView;
+        private IActivatableView _currentView;
+        private ChatViewVm _chatView;
+        private LoginViewVm _loginView;
 
         public MainWindowVm()
         {
             _chatService = new ChatService();
             _chatService.ConnectedChanged += OnConnectedChanged;
 
-            CurrentView = new LoginViewVm(_chatService);
+
+            _chatView = new ChatViewVm(_chatService);
+            _loginView = new LoginViewVm(_chatService);
+
+            CurrentView = _loginView;
         }
 
-        public ObservableObject CurrentView
+        public IActivatableView CurrentView
         {
             get => _currentView;
             set
@@ -27,10 +33,12 @@ namespace Chat.Views
 
         private void OnConnectedChanged(object sender, EventArgs<bool> e)
         {
+            CurrentView.Deactivate();
             if (e.Value)
-                CurrentView = new ChatViewVm(_chatService);
+                CurrentView = _chatView;
             else
-                CurrentView = new LoginViewVm(_chatService);
+                CurrentView = _loginView;
+            CurrentView.Activate();
         }
     }
 }

@@ -7,15 +7,15 @@ using ChatLib;
 
 namespace Chat.Views
 {
-    public class ChatViewVm : ObservableObject
+    public class ChatViewVm : ObservableObject, IActivatableView
     {
         private readonly ChatService _chatService;
         private string _message = string.Empty;
+        private string _clientName;
+        private string _serverUri;
 
         public ChatViewVm(ChatService chatService)
         {
-            ClientName = chatService.Username;
-            ServerUri = chatService.ServerUri;
             _chatService = chatService;
             _chatService.NewMessageReceived += OnNewMessageReceived;
 
@@ -36,8 +36,25 @@ namespace Chat.Views
             }
         }
 
-        public string ClientName { get; }
-        public string ServerUri { get; }
+        public string ClientName
+        {
+            get => _clientName;
+            private set
+            {
+                _clientName = value;
+                OnPropertyChanged(nameof(ClientName));
+            }
+        }
+        public string ServerUri
+        {
+            get => _serverUri;
+            private set
+            {
+                _serverUri = value;
+                OnPropertyChanged(nameof(ServerUri));
+            }
+        }
+
         public ICommand DisconnectCommand { get; }
         public ICommand SendCommand { get; }
 
@@ -62,5 +79,16 @@ namespace Chat.Views
         }
 
         public event EventHandler OnMessagesChanged = delegate { };
+
+        public void Activate()
+        {
+            ClientName = _chatService.Username;
+            ServerUri = _chatService.ServerUri;
+        }
+
+        public void Deactivate()
+        {
+            Messages.Clear();
+        }
     }
 }

@@ -89,6 +89,7 @@
     <Compile Include="Utilities\Extensions.cs" />
     <Compile Include="Views\ChatViewVm.cs" />
     <Compile Include="Utilities\EventArgs.cs" />
+    <Compile Include="Views\IActivatableView.cs" />
     <Compile Include="Views\LoginView.xaml.cs">
       <DependentUpon>LoginView.xaml</DependentUpon>
     </Compile>
