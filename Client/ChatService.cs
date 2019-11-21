@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using System.Windows;
 using Chat.Utilities;
 using ChatLib;
 using Microsoft.AspNet.SignalR.Client;
@@ -31,6 +32,15 @@ namespace Chat
 
                 await _connection.Start();
 
+                var success = await _proxy.Invoke<bool>(nameof(IClientHub.ConnectUser), Username);
+                if (!success)
+                {
+                    MessageBox.Show("User already connected.");
+                    _isConnecting = false;
+                    Disconnect();
+                    return;
+                }
+
                 IsConnected = true;
                 _isConnecting = false;
             }
@@ -49,6 +59,8 @@ namespace Chat
         public void Disconnect()
         {
             _connection.Stop();
+            _connection.Dispose();
+            _connection = null;
             IsConnected = false;
             ConnectedChanged.Invoke(this, new EventArgs<bool>(IsConnected));
         }
@@ -62,7 +74,7 @@ namespace Chat
         {
             if (string.IsNullOrEmpty(message)) return;
             _proxy.Invoke(nameof(IClientHub.Send),
-                new MessageObject {Username = Username, Message = message.Replace("\r\n", "\\\r\n")});
+                new MessageObject { Username = Username, Message = message.Replace("\r\n", "\\\r\n") });
         }
     }
 }
