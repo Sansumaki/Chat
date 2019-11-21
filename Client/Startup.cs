@@ -1,20 +1,18 @@
-﻿using Chat.Views;
-using System;
+﻿using System;
 using System.Windows;
+using Chat.Views;
 
 namespace Chat
 {
-    class Startup
+    public static class Startup
     {
         [STAThread]
-        static void Main()
+        public static void Main()
         {
             var viewmodel = new MainWindowVm();
-            var view = new MainWindow();
-            view.DataContext = viewmodel;
+            var view = new MainWindow { DataContext = viewmodel };
             var app = new Application();
             app.Run(view);
         }
-
     }
 }

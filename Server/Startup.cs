@@ -1,6 +1,9 @@
-﻿using Owin;
-using Microsoft.Owin;
-[assembly: OwinStartup(typeof(Servr.Startup))]
+﻿using Microsoft.Owin;
+using Owin;
+using Servr;
+
+[assembly: OwinStartup(typeof(Startup))]
+
 namespace Servr
 {
     public class Startup

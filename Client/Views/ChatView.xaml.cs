@@ -1,17 +1,17 @@
-﻿using Chat.Utilities;
-using System;
+﻿using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using Chat.Utilities;
 
 namespace Chat.Views
 {
     /// <summary>
-    /// Interaction logic for Chat.xaml
+    ///     Interaction logic for Chat.xaml
     /// </summary>
     public partial class ChatView : UserControl
     {
-        private MainWindowVm _viewmodel;
+        private ChatViewVm _viewmodel;
 
         public ChatView()
         {
@@ -23,11 +23,8 @@ namespace Chat.Views
 
         private void OnDataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
-            _viewmodel = e.NewValue as MainWindowVm;
-            if (_viewmodel != null)
-            {
-                _viewmodel.OnMessagesChanged += OnMessagesChanged;
-            }
+            _viewmodel = e.NewValue as ChatViewVm;
+            if (_viewmodel != null) _viewmodel.OnMessagesChanged += OnMessagesChanged;
         }
 
         private void OnMessagesChanged(object sender, EventArgs e)
@@ -43,10 +40,9 @@ namespace Chat.Views
             if (e.Key != Key.Enter ||
                 (e.KeyboardDevice.Modifiers & ModifierKeys.Shift) == ModifierKeys.Shift ||
                 (e.KeyboardDevice.Modifiers & ModifierKeys.Control) == ModifierKeys.Control) return;
-            if (!(DataContext is MainWindowVm vm)) return;
+            if (!(DataContext is ChatViewVm vm)) return;
             e.Handled = true;
             vm.SendCommand.Execute(sender);
         }
-
     }
 }
