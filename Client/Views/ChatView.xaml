@@ -50,8 +50,9 @@
                 <ColumnDefinition Width="auto" />
                 <ColumnDefinition Width="auto" />
             </Grid.ColumnDefinitions>
+
             <StackPanel Orientation="Horizontal">
-                <TextBlock Style="{StaticResource Title}" Text="Wellcome" />
+                <TextBlock Style="{StaticResource Title}" Text="Welcome" />
                 <TextBlock Style="{StaticResource TitleHighlight}" Text="{Binding ClientName}" />
                 <TextBlock Style="{StaticResource Title}" Text="to The Greatest Chat." />
             </StackPanel>

@@ -25,7 +25,7 @@ namespace Servr
                 return false;
             }
             _users.Add(username, Context.ConnectionId);
-            Clients.All.AddNewMessage(new MessageObject { Message = $"User {username} joined the room.", Username = "James", Timestamp = DateTime.Now });
+            Clients.All.AddNewMessage(new MessageObject { Message = $"{username} joined the party.", Username = "James", Timestamp = DateTime.Now });
             return true;
         }
 
@@ -35,7 +35,7 @@ namespace Servr
             if (!string.IsNullOrEmpty(user))
             {
                 _users.Remove(user);
-                Clients.All.AddNewMessage(new MessageObject { Message = $"User {user} left the room.", Username = "James", Timestamp = DateTime.Now });
+                Clients.All.AddNewMessage(new MessageObject { Message = $"{user} sneaks out of the room.", Username = "James", Timestamp = DateTime.Now });
             }
             return base.OnDisconnected(stopCalled);
         }
