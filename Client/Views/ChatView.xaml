@@ -4,8 +4,10 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Chat.Views"
+             xmlns:wpf="clr-namespace:Markdig.Wpf;assembly=Markdig.Wpf"
+             xmlns:chatLib="clr-namespace:ChatLib;assembly=ChatLib"
              mc:Ignorable="d"  Background="#FFF1F1F1"
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="450" d:DesignWidth="800" d:DataContext="{d:DesignInstance local:MainWindowVm}">
     <UserControl.Resources>
         <ResourceDictionary>
             <Style TargetType="TextBox">
@@ -27,7 +29,7 @@
                 <Setter Property="VerticalAlignment" Value="Center"></Setter>
             </Style>
             <Style x:Key="TitleHighlight" BasedOn="{StaticResource Title}" TargetType="TextBlock">
-                <Setter Property="FontWeight" Value="Bold"></Setter>                
+                <Setter Property="FontWeight" Value="Bold"></Setter>
             </Style>
             <Style TargetType="ItemsControl">
                 <Setter Property="Margin" Value="4"></Setter>
@@ -69,26 +71,26 @@
                 </ControlTemplate>
             </ItemsControl.Template>
             <ItemsControl.ItemTemplate>
-                <DataTemplate>
+                <DataTemplate DataType="chatLib:MessageObject">
                     <StackPanel>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock FontSize="15" Margin="0 0 5 0" VerticalAlignment="Top" FontWeight="Bold" Text="{Binding Username, StringFormat='{}{0}:'}"></TextBlock>
-                        <TextBlock FontSize="10" Margin="0 6 5 0" Foreground="Gray" VerticalAlignment="Top" Text="{Binding Timestamp}"></TextBlock>
-                    </StackPanel>
-                        <TextBlock TextWrapping="Wrap" Text="{Binding Message}"></TextBlock>
-                        <Separator Background="LightGray"></Separator>
+                        <StackPanel Orientation="Horizontal" Margin="10 0 0 0">
+                            <TextBlock FontSize="15" Margin="0 0 5 0" VerticalAlignment="Top" FontWeight="Bold" Text="{Binding Username, StringFormat='{}{0}:'}"></TextBlock>
+                            <TextBlock FontSize="10" Margin="0 6 0 0" Foreground="Gray" VerticalAlignment="Top" Text="{Binding Timestamp}"></TextBlock>
+                        </StackPanel>
+                        <wpf:MarkdownViewer Markdown="{Binding Message, Mode=OneWay}" Margin="-10"></wpf:MarkdownViewer>
+                        <Separator Background="#E3E3E3"></Separator>
                     </StackPanel>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
-        
+
         <Grid Grid.Row="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="100" />
             </Grid.ColumnDefinitions>
 
-            <TextBox Grid.Column="0" Text="{Binding Message, UpdateSourceTrigger=PropertyChanged}" KeyDown="MessageKeyDown" ></TextBox>
+            <TextBox Grid.Column="0" Text="{Binding Message, UpdateSourceTrigger=PropertyChanged}" PreviewKeyDown="MessageKeyDown" TextWrapping="Wrap" AcceptsTab="True" AcceptsReturn="True" ></TextBox>
             <Button Grid.Column="1" Command="{Binding SendCommand}">Send</Button>
         </Grid>
     </Grid>

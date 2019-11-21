@@ -37,7 +37,7 @@ namespace Chat.Views
             {
                 return;
             }
-            _proxy.Invoke("Send", new MessageObject() { Username = ClientName, Message = Message });
+            _proxy.Invoke("Send", new MessageObject() { Username = ClientName, Message = Message.Replace("\r\n", "\\\r\n") });
             Message = string.Empty;
         }
 

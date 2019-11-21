@@ -12,7 +12,7 @@ namespace Chat.Views
     public partial class ChatView : UserControl
     {
         private MainWindowVm _viewmodel;
-        
+
         public ChatView()
         {
             InitializeComponent();
@@ -40,14 +40,12 @@ namespace Chat.Views
         private void MessageKeyDown(object sender, KeyEventArgs e)
         {
             // Enter to send Message
-            if (e.Key == Key.Enter)
-            {
-                var vm = DataContext as MainWindowVm;
-                if (vm != null)
-                {
-                    vm.SendCommand.Execute(sender);
-                }
-            }
+            if (e.Key != Key.Enter ||
+                (e.KeyboardDevice.Modifiers & ModifierKeys.Shift) == ModifierKeys.Shift ||
+                (e.KeyboardDevice.Modifiers & ModifierKeys.Control) == ModifierKeys.Control) return;
+            if (!(DataContext is MainWindowVm vm)) return;
+            e.Handled = true;
+            vm.SendCommand.Execute(sender);
         }
 
     }
